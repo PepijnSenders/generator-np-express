@@ -1,0 +1,32 @@
+{
+  "name": "generator-np-express",
+  "version": "0.0.0",
+  "description": "Generator for NoProtocol for Express projects",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:NoProtocol/generator-np-express.git"
+  },
+  "keywords": [
+    "express",
+    "noprotocol",
+    "node",
+    "generator",
+    "yeoman",
+    "yeoman-generator"
+  ],
+  "author": "Pepijn Senders <pepijn@noprotocol.com> (http://senders.name)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NoProtocol/generator-np-express/issues"
+  },
+  "homepage": "https://github.com/NoProtocol/generator-np-express",
+  "dependencies": {
+    "yeoman-generator": "~0.17.2",
+    "change-case": "~2.1.1",
+    "dot": "~1.0.2"
+  }
+}
