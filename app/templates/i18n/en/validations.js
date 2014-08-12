@@ -18,6 +18,6 @@ module.exports = exports = {
   required: 'The {{=it.attribute}} field is required.',
   url: 'The {{=it.attribute}} format is invalid.',
 
-  nonExistingValidation: 'The {{=it.validation}} doesn\'t exist'
+  nonExistingValidation: 'The {{=it.validation}} validation doesn\'t exist.'
 
 };

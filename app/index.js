@@ -73,6 +73,7 @@ module.exports = exports = yeoman.generators.Base.extend({
     this.template('libs/validations.js', 'app/libs/validations.js');
     this.template('middlewares/cors.js', 'app/middlewares/cors.js');
     this.template('middlewares/expects.js', 'app/middlewares/expects.js');
+    this.template('controllers/HomeController.js', 'app/controllers/HomeController.js');
 
     this.template('index.js', 'app/index.js');
     this.template('routes.js', 'app/routes.js');

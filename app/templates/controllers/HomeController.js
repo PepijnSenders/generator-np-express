@@ -4,11 +4,11 @@ module.exports = exports = {
     var params = req.expects({
       name: {
         type: 'string',
-        validations: 'alphanumeric'
+        validations: 'alphaNum'
       }
     });
 
-    res.status(200, params);
+    res.status(200).send(params);
   }
 
 };
