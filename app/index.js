@@ -3,12 +3,17 @@ var yeoman = require('yeoman-generator'),
     changeCase = require('change-case'),
     doT = require('dot'),
     fs = require('fs'),
+    shell = require('shelljs'),
     util = require('util');
 
 module.exports = exports = yeoman.generators.Base.extend({
 
   constructor: function() {
     yeoman.generators.Base.apply(this, arguments);
+
+    this.on('end', function() {
+      this.installDependencies();
+    });
 
     this.pkg = require(__dirname + '/../package.json');
   },
@@ -49,7 +54,8 @@ module.exports = exports = yeoman.generators.Base.extend({
   },
 
   buildAppTask: function() {
-    this.log('Start building app.');
+    var done = this.async();
+    this.log.write().info('Start building app.');
     this.directory('app');
     this.mkdir('app/classes');
     this.mkdir('app/config');
@@ -101,6 +107,10 @@ module.exports = exports = yeoman.generators.Base.extend({
     this.template('config/appConfig.js', 'app/config/production/app.js');
 
     this.template('startup.sh', 'startup.sh');
+
+    this.log.write().info('Finished building app.');
+
+    done();
   }
 
 });

@@ -8,7 +8,7 @@ module.exports = exports = {
       }
     });
 
-    res.status(200).send(params);
+    res.status(200).send('Hello ' + params.name);
   }
 
 };
