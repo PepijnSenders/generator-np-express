@@ -48,6 +48,7 @@ module.exports = exports = yeoman.generators.Base.extend({
     this.mkdir('app/libs');
     this.mkdir('app/middlewares');
     this.mkdir('app/models');
+    this.mkdir('app/views');
 
     var tmpl = doT.template(fs.readFileSync(__dirname + '/templates/config/databaseConfig.js'));
 
