@@ -18,3 +18,9 @@ cd !$;
 
 yo np-express;
 ```
+
+##How to use:##
+```
+cd your-app;
+sh startup.sh {environment}
+```
