@@ -26,7 +26,7 @@ module.exports = exports = {
     var namespace = keys[0];
 
     if (templateValues && typeof templateValues === 'object') {
-      var tmpl = doT.template(this._getTranslations(global.LANG || this.defaultLanguage, namespace)[keys[1]]);
+      var tmpl = doT.template(this._getTranslations(namespace)[keys[1]]);
       return tmpl(templateValues);
     } else {
       return this._getTranslations(namespace)[keys[1]];

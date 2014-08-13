@@ -23,24 +23,27 @@ module.exports = exports = function(req, res, next) {
         _params[attribute] = req.param(attribute);
       }
       if ('validations' in args) {
-        args.validations.split('|').forEach(function(validation) {
-          var validationValue;
-          if (validation.match(':')) {
-            var validationKeys = validation.split(':');
-            validation = validationKeys[0];
-            validationValue = validationKeys[1];
-          }
-          if (validation in validations) {
-            var message = validations[validation](attribute, _params[attribute], validationValue);
-            if (message) {
-              _errors.push(message);
+        var _validations = args.validations.split('|');
+        if (!!~_validations.indexOf('required') || !validations.required(_params[attribute])) {
+          _validations.forEach(function(validation) {
+            var validationValue;
+            if (validation.match(':')) {
+              var validationKeys = validation.split(':');
+              validation = validationKeys[0];
+              validationValue = validationKeys[1];
             }
-          } else {
-            _errors.push(i18n.get('validations.nonExistingValidation', {
-              validation: validation
-            }));
-          }
-        });
+            if (validation in validations) {
+              var message = validations[validation](attribute, _params[attribute], validationValue);
+              if (message) {
+                _errors.push(message);
+              }
+            } else {
+              _errors.push(i18n.get('validations.nonExistingValidation', {
+                validation: validation
+              }));
+            }
+          });
+        }
       }
     }
 

@@ -35,7 +35,21 @@ module.exports = exports = yeoman.generators.Base.extend({
     this.write('package.json', JSON.stringify(packageJson, null, 2));
   },
 
-  buildApp: function() {
+  promptTask: function() {
+    var done = this.async();
+    this.prompt({
+      type: 'input',
+      name: 'name',
+      message: 'Enter project name:',
+      default: this.appname
+    }, function(answers) {
+      this.appname = answers.name;
+      done();
+    }.bind(this));
+  },
+
+  buildAppTask: function() {
+    this.log('Start building app.');
     this.directory('app');
     this.mkdir('app/classes');
     this.mkdir('app/config');
@@ -85,6 +99,8 @@ module.exports = exports = yeoman.generators.Base.extend({
     this.template('config/appConfig.js', 'app/config/development/app.js');
     this.template('config/appConfig.js', 'app/config/staging/app.js');
     this.template('config/appConfig.js', 'app/config/production/app.js');
+
+    this.template('startup.sh', 'startup.sh');
   }
 
 });
