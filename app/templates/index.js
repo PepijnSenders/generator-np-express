@@ -25,8 +25,8 @@ app.set('showStackError', true);
 
 app.use(express.static(__dirname + '/public'));
 
-app.listen(global.PORT);
-console.log('\nListening on port ' + global.PORT + '\nIn environment ' + global.ENV + '\n');
+app.listen(config.get('app.port'));
+console.log('\nListening on port ' + config.get('app.port') + '\nIn environment ' + global.ENV + '\n');
 
 routes(app);
 

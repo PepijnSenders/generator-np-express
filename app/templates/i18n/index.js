@@ -1,4 +1,5 @@
 var doT = require('dot'),
+    config = require(global.APP_DIR + '/config'),
     fs = require('fs');
 
 /**
@@ -28,7 +29,7 @@ module.exports = exports = {
       var tmpl = doT.template(this._getTranslations(global.LANG || this.defaultLanguage, namespace)[keys[1]]);
       return tmpl(templateValues);
     } else {
-      return this._getTranslations(global.LANG || this.defaultLanguage, namespace)[keys[1]];
+      return this._getTranslations(namespace)[keys[1]];
     }
   },
 
@@ -38,8 +39,8 @@ module.exports = exports = {
    * @param  {String} namespace
    * @return {Object} config
    */
-  _getTranslations: function (language, namespace) {
-    var path = global.APP_DIR +  '/i18n/' + language + '/' + namespace;
+  _getTranslations: function (namespace) {
+    var path = global.APP_DIR +  '/i18n/' + config.get('app.lang') + '/' + namespace;
     if (fs.existsSync(path + '.js')) {
       return require(path);
     } else {

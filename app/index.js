@@ -79,6 +79,11 @@ module.exports = exports = yeoman.generators.Base.extend({
     this.template('routes.js', 'app/routes.js');
 
     this.mkdir('public');
+
+    this.template('gitignore', '.gitignore');
+    this.template('config/appConfig.js', 'app/config/development/app.js');
+    this.template('config/appConfig.js', 'app/config/staging/app.js');
+    this.template('config/appConfig.js', 'app/config/production/app.js');
   }
 
 });
