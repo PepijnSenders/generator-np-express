@@ -1,4 +1,4 @@
-var HomeController = require(global.APP_DIR + '/controllers/HomeController');
+var PagesController = require(global.APP_DIR + '/controllers/PagesController');
 
 /**
  * @class  Routes
@@ -6,5 +6,5 @@ var HomeController = require(global.APP_DIR + '/controllers/HomeController');
  * @param  {Express.app} app
  */
 module.exports = exports = function(app) {
-  app.get('/', HomeController.hello);
+  app.get('/', PagesController.hello);
 };

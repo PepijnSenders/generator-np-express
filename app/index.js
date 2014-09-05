@@ -4,6 +4,7 @@ var yeoman = require('yeoman-generator'),
     doT = require('dot'),
     fs = require('fs'),
     shell = require('shelljs'),
+    slugs = require('slugs'),
     util = require('util');
 
 module.exports = exports = yeoman.generators.Base.extend({
@@ -18,28 +19,6 @@ module.exports = exports = yeoman.generators.Base.extend({
     this.pkg = require(__dirname + '/../package.json');
   },
 
-  npmPackages: function() {
-    var packageJson = {
-      name: this.appname,
-      version: '0.0.0',
-      main: 'index.js',
-      author: 'NoProtocol <info@noprotocol.nl>',
-      license: 'ISC',
-      dependencies: {
-        'express': '*',
-        'q': '*',
-        'mongoose': '*',
-        'sugar': '*',
-        'ejs': '*',
-        'morgan': '*',
-        'body-parser': '*',
-        'dot': '*'
-      }
-    };
-
-    this.write('package.json', JSON.stringify(packageJson, null, 2));
-  },
-
   promptTask: function() {
     var done = this.async();
     this.prompt({
@@ -48,7 +27,7 @@ module.exports = exports = yeoman.generators.Base.extend({
       message: 'Enter project name:',
       default: this.appname
     }, function(answers) {
-      this.appname = answers.name;
+      this.appname = slugs(answers.name);
       done();
     }.bind(this));
   },
@@ -75,17 +54,21 @@ module.exports = exports = yeoman.generators.Base.extend({
     this.template('classes/Database.js', 'app/classes/Database.js');
     this.template('config/index.js', 'app/config/index.js');
     this.write('app/config/development/database.js', tmpl({
-      appname: this.appname,
+      appname: changeCase.snakeCase(this.appname),
       environment: 'ddb'
     }));
     this.write('app/config/staging/database.js', tmpl({
-      appname: this.appname,
+      appname: changeCase.snakeCase(this.appname),
       environment: 'sdb'
     }));
     this.write('app/config/production/database.js', tmpl({
-      appname: this.appname,
+      appname: changeCase.snakeCase(this.appname),
       environment: 'pdb'
     }));
+
+    var gulp = fs.readFileSync(__dirname + '/templates/gulpfile.js');
+    gulp = gulp.toString().replace('{{=it.appname}}', changeCase.camelCase(this.appname) + 'App');
+    this.write('gulpfile.js', gulp);
 
     this.template('i18n/index.js', 'app/i18n/index.js');
     this.template('i18n/en/validations.js', 'app/i18n/en/validations.js');
@@ -94,23 +77,96 @@ module.exports = exports = yeoman.generators.Base.extend({
     this.template('libs/validations.js', 'app/libs/validations.js');
     this.template('middlewares/cors.js', 'app/middlewares/cors.js');
     this.template('middlewares/expects.js', 'app/middlewares/expects.js');
-    this.template('controllers/HomeController.js', 'app/controllers/HomeController.js');
+    this.template('middlewares/phantom.js', 'app/middlewares/phantom.js');
+    this.template('controllers/PagesController.js', 'app/controllers/PagesController.js');
+    this.template('views/index.jade', 'app/views/index.jade');
 
     this.template('index.js', 'app/index.js');
     this.template('routes.js', 'app/routes.js');
 
-    this.mkdir('public');
+    this.directory('public');
+
+    this.mkdir('public/sass');
+    this.template('main.scss', 'public/sass/main.scss');
+    this.mkdir('public/sass/modules');
+    this.mkdir('public/sass/import');
+    this.mkdir('public/js');
+    this.mkdir('public/img');
 
     this.template('gitignore', '.gitignore');
     this.template('config/appConfig.js', 'app/config/development/app.js');
     this.template('config/appConfig.js', 'app/config/staging/app.js');
     this.template('config/appConfig.js', 'app/config/production/app.js');
 
-    this.template('startup.sh', 'startup.sh');
-
     this.log.write().info('Finished building app.');
 
     done();
+  },
+
+  buildBower: function() {
+    var bowerJson = {
+      name: this.appname,
+      version: "0.0.0",
+      authors: [
+        'NoProtocol <info@noprotocol.nl>'
+      ],
+      license: "MIT",
+      private: true,
+      ignore: [
+        "**/.*",
+        "node_modules",
+        "bower_components",
+        "test",
+        "tests"
+      ],
+      dependencies: {
+        "bower-bourbon": "*",
+        "angular": "*"
+      }
+    };
+
+    this.write('bower.json', JSON.stringify(bowerJson, null, 2));
+  },
+
+  bowerRc: function() {
+    var bowerRc = {
+      "directory": "public/libs"
+    };
+
+    this.write('.bowerrc', JSON.stringify(bowerRc, null, 2));
+  },
+
+  npmPackages: function() {
+    var packageJson = {
+      name: this.appname,
+      version: '0.0.0',
+      main: 'index.js',
+      author: 'NoProtocol <info@noprotocol.nl>',
+      license: 'ISC',
+      dependencies: {
+        "body-parser": "*",
+        "bower": "*",
+        "connect-multiparty": "*",
+        "cookie-parser": "*",
+        "dot": "*",
+        "ejs": "*",
+        "express": "*",
+        "jade": "*",
+        "morgan": "*",
+        "newrelic": "*",
+        "phantom": "*",
+        "phantomjs": "*",
+        "q": "*",
+        "sugar": "*"
+      },
+      devDependencies: {
+        "gulp": "*",
+        "gulp-livereload": "*",
+        "gulp-noprotocol": "*"
+      }
+    };
+
+    this.write('package.json', JSON.stringify(packageJson, null, 2));
   }
 
 });

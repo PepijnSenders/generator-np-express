@@ -17,10 +17,13 @@ module.exports = exports = function(req, res, next) {
 
     for (var attribute in params) {
       var args = params[attribute];
-      if ('type' in args && args.type in types) {
-        _params[attribute] = types[args.type](req.param(attribute));
+      if ('default' in args && !req.param(attribute)) {
+        _params[attribute] = args.default;
       } else {
         _params[attribute] = req.param(attribute);
+      }
+      if ('type' in args && args.type in types) {
+        _params[attribute] = types[args.type](_params[attribute]);
       }
       if ('validations' in args) {
         var _validations = args.validations.split('|');
@@ -48,11 +51,7 @@ module.exports = exports = function(req, res, next) {
     }
 
     if (_errors.length) {
-      res.status(500).send({
-        message: {
-          errors: _errors
-        }
-      });
+      throw _errors;
     } else {
       return _params;
     }

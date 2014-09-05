@@ -1,4 +1,4 @@
 module.exports = exports = {
   lang: 'en',
-  port: 4000
+  port: global.PORT || 4000
 };

@@ -25,11 +25,12 @@
   },
   "homepage": "https://github.com/NoProtocol/generator-np-express",
   "dependencies": {
-    "yeoman-generator": "~0.17.2",
     "change-case": "~2.1.1",
     "dot": "~1.0.2",
-    "shelljs": "~0.3.0",
+    "install": "~0.1.7",
     "npm": "~1.4.23",
-    "install": "~0.1.7"
+    "shelljs": "~0.3.0",
+    "slugs": "^0.1.2",
+    "yeoman-generator": "~0.17.2"
   }
 }
