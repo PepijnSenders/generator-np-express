@@ -157,7 +157,8 @@ module.exports = exports = yeoman.generators.Base.extend({
         "phantom": "*",
         "phantomjs": "*",
         "q": "*",
-        "sugar": "*"
+        "sugar": "*",
+        "mongoose": "*"
       },
       devDependencies: {
         "gulp": "*",

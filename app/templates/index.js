@@ -10,6 +10,7 @@ var express = require('express'),
     routes = require(global.APP_DIR + '/routes'),
     expects = require(global.APP_DIR + '/middlewares/expects'),
     cors = require(global.APP_DIR + '/middlewares/cors'),
+    phantom = require(global.APP_DIR + '/middlewares/phantom'),
     Database = require(global.APP_DIR + '/classes/Database'),
     config = require(global.APP_DIR + '/config');
 
