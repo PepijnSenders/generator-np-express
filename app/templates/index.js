@@ -24,10 +24,10 @@ app.use(expects);
 var database = new Database();
 database.connect(config.get('database.name'));
 
-app.engine('html', require('ejs').renderFile);
-app.set('view engine', 'html');
+app.set('view engine', 'jade');
 app.set('public', global.PUBLIC_DIR);
 app.set('showStackError', true);
+app.set('views', global.APP_DIR + '/views');
 
 app.use(express.static(global.PUBLIC_DIR));
 
