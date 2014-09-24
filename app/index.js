@@ -69,6 +69,12 @@ module.exports = exports = yeoman.generators.Base.extend({
       environment: 'pdb'
     }));
 
+    var tmpl = doT.template(fs.readFileSync(__dirname + '/templates/newrelic.js'));
+
+    this.write('app/newrelic.js', tmpl({
+      appname: this.appname
+    }));
+
     var gulp = fs.readFileSync(__dirname + '/templates/gulpfile.js');
     gulp = gulp.toString().replace('{{=it.appname}}', changeCase.camelCase(this.appname) + 'App');
     this.write('gulpfile.js', gulp);

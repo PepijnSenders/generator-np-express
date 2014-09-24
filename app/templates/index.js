@@ -11,6 +11,7 @@ var express = require('express'),
     expects = require(global.APP_DIR + '/middlewares/expects'),
     cors = require(global.APP_DIR + '/middlewares/cors'),
     phantom = require(global.APP_DIR + '/middlewares/phantom'),
+    jade = require(global.APP_DIR + '/middlewares/jade'),
     Database = require(global.APP_DIR + '/classes/Database'),
     config = require(global.APP_DIR + '/config');
 
@@ -18,8 +19,9 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 
 app.use(cors);
-app.use(phantom)
+app.use(phantom);
 app.use(expects);
+app.use(jade);
 
 var database = new Database();
 database.connect(config.get('database.name'));
