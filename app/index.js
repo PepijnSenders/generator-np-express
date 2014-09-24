@@ -70,7 +70,6 @@ module.exports = exports = yeoman.generators.Base.extend({
     }));
 
     var tmpl = doT.template(fs.readFileSync(__dirname + '/templates/newrelic.js'));
-
     this.write('app/newrelic.js', tmpl({
       appname: this.appname
     }));
