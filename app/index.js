@@ -48,6 +48,9 @@ module.exports = exports = yeoman.generators.Base.extend({
     this.mkdir('app/middlewares');
     this.mkdir('app/models');
     this.mkdir('app/views');
+    this.mkdir('app/views/layouts');
+    this.mkdir('app/views/pages');
+    this.mkdir('app/views/partials');
 
     var tmpl = doT.template(fs.readFileSync(__dirname + '/templates/config/databaseConfig.js'));
 
@@ -75,11 +78,15 @@ module.exports = exports = yeoman.generators.Base.extend({
     this.template('libs/constants.js', 'app/libs/constants.js');
     this.template('libs/types.js', 'app/libs/types.js');
     this.template('libs/validations.js', 'app/libs/validations.js');
+    this.template('libs/helpers.js', 'app/libs/helpers.js');
     this.template('middlewares/cors.js', 'app/middlewares/cors.js');
     this.template('middlewares/expects.js', 'app/middlewares/expects.js');
     this.template('middlewares/phantom.js', 'app/middlewares/phantom.js');
+    this.template('middlewares/jade.js', 'app/middlewares/jade.js');
     this.template('controllers/PagesController.js', 'app/controllers/PagesController.js');
-    this.template('views/index.jade', 'app/views/index.jade');
+    this.template('views/layouts/default.jade', 'app/views/layouts/default.jade');
+    this.template('views/pages/index.jade', 'app/views/pages/index.jade');
+    this.template('views/partials/livereload.jade', 'app/views/partials/livereload.jade');
 
     this.template('index.js', 'app/index.js');
     this.template('routes.js', 'app/routes.js');
@@ -143,6 +150,10 @@ module.exports = exports = yeoman.generators.Base.extend({
       main: 'index.js',
       author: 'NoProtocol <info@noprotocol.nl>',
       license: 'ISC',
+      scripts: {
+        "start": "node app/index.js",
+        "postinstall": "bower install && gulp deploy"
+      },
       dependencies: {
         "body-parser": "*",
         "bower": "*",
